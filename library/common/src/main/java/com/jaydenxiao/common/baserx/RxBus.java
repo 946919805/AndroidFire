@@ -37,23 +37,6 @@ public class RxBus {
     private ConcurrentHashMap<Object, List<Subject>> subjectMapper = new ConcurrentHashMap<Object, List<Subject>>();
 
     /**
-     * 订阅事件源
-     *
-     * @param mObservable
-     * @param mAction1
-     * @return
-     */
-    public RxBus OnEvent(Observable<?> mObservable, Action1<Object> mAction1) {
-        mObservable.observeOn(AndroidSchedulers.mainThread()).subscribe(mAction1, new Action1<Throwable>() {
-            @Override
-            public void call(Throwable throwable) {
-                throwable.printStackTrace();
-            }
-        });
-        return getInstance();
-    }
-
-    /**
      * 注册事件源
      *
      * @param tag
@@ -70,14 +53,6 @@ public class RxBus {
         subjectList.add(subject = PublishSubject.create());
         LogUtils.logd("register"+tag + "  size:" + subjectList.size());
         return subject;
-    }
-
-    @SuppressWarnings("rawtypes")
-    public void unregister(@NonNull Object tag) {
-        List<Subject> subjects = subjectMapper.get(tag);
-        if (null != subjects) {
-            subjectMapper.remove(tag);
-        }
     }
 
     /**
@@ -101,10 +76,6 @@ public class RxBus {
             }
         }
         return getInstance();
-    }
-
-    public void post(@NonNull Object content) {
-        post(content.getClass().getName(), content);
     }
 
     /**

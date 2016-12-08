@@ -23,7 +23,7 @@ public interface NewsMainContract {
     interface View extends BaseView {
         void returnMineNewsChannels(List<NewsChannelTable> newsChannelsMine);
     }
-    abstract static class Presenter extends BasePresenter<View, Model> {
+    abstract class Presenter extends BasePresenter<View, Model> {
         public abstract void lodeMineChannelsRequest();
     }
 }
